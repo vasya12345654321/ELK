@@ -1,0 +1,35 @@
+input {
+  file {
+    path => "/docker-containers/*/*-json.log"
+    start_position => "beginning"
+    sincedb_path => "/dev/null"
+  }
+}
+
+filter {
+  json {
+    source => "message"
+  }
+}
+
+output {
+  elasticsearch {
+    hosts => ["http://elasticsearch:9200"]
+    index => "nginx-logstash-real"
+  }
+}
+Misha_Lukyanov_Vladimirovich@ubuntu:~$ cat ~/elk/filebeat.yml
+filebeat.inputs:
+  - type: container
+    enabled: true
+    paths:
+      - /var/lib/docker/containers/*/*-json.log
+
+processors:
+  - add_docker_metadata: ~
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+
+setup.kibana:
+  host: "http://kibana:5601"
