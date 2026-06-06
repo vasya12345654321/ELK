@@ -141,4 +141,31 @@ yellow open filebeat-7.17.10-2026.06.05-000001
 
 ## filebeat.yml
 
+### Задание 5*. Доставка данных
+
+В качестве дополнительного сервиса использовался пользовательский лог-файл `app.log`.
+
+Пример записей:
+
+2026-06-06 INFO User login success
+
+2026-06-06 ERROR Database connection failed
+
+2026-06-06 WARN Disk usage 80%
+
+Logstash считывал лог из файла, с помощью фильтра `grok` разбирал его на поля:
+
+* level
+* log_date
+* log_message
+
+После обработки данные отправлялись в Elasticsearch в индекс `custom-app-log` и отображались в Kibana.
+
+Скриншот:
+
+<img width="960" height="503" alt="5" src="https://github.com/user-attachments/assets/011dbaf6-832d-4efd-9aa6-32a261ae2737" />
+
+
+
+
 Конфигурация Filebeat для сбора Docker-логов и передачи их в Elasticsearch.
